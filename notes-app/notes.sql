@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2021 at 12:52 PM
+-- Generation Time: Jul 22, 2021 at 03:44 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `notes` (
   `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(1024) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL
@@ -38,11 +39,10 @@ CREATE TABLE `notes` (
 -- Dumping data for table `notes`
 --
 
-INSERT INTO `notes` (`id`, `title`, `description`, `create_date`) VALUES
-(1, 'title', 'description', '2021-07-21 09:32:22'),
-(2, 'title', 'description', '2021-07-21 09:32:22'),
-(7, 'dadasda updated', 'dsa', '2021-07-22 12:12:29'),
-(9, 'lorem ipsum', 'lorem ipsum', '2021-07-22 12:50:46');
+INSERT INTO `notes` (`id`, `user_id`, `title`, `description`, `create_date`) VALUES
+(11, 1, 'new note from user', 'new note with user id', '2021-07-22 15:40:53'),
+(12, 1, 'new', 'new updated', '2021-07-22 15:41:29'),
+(13, 1, 'note new note', 'desc', '2021-07-22 15:42:57');
 
 --
 -- Indexes for dumped tables
@@ -52,7 +52,8 @@ INSERT INTO `notes` (`id`, `title`, `description`, `create_date`) VALUES
 -- Indexes for table `notes`
 --
 ALTER TABLE `notes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -62,7 +63,17 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `notes`
+--
+ALTER TABLE `notes`
+  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
