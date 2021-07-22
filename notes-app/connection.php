@@ -9,16 +9,18 @@ class Connection{
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getNotes(){
-        $query = 'SELECT * FROM notes ORDER BY create_date DESC';
+    public function getNotes($user_id){
+        $query = 'SELECT * FROM notes WHERE user_id = :user_id ORDER BY create_date DESC';
         $statement = $this->pdo->prepare($query);
+        $statement->bindValue('user_id', $user_id);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addNote($note){
-        $query = 'INSERT INTO notes(title, description, create_date) VALUES (:title, :description, :date);';
+        $query = 'INSERT INTO notes(user_id, title, description, create_date) VALUES (:user_id, :title, :description, :date);';
         $statement = $this->pdo->prepare($query);
+        $statement->bindValue('user_id', $note['user_id']);
         $statement->bindValue('title', $note['title']);
         $statement->bindValue('description', $note['description']);
         $statement->bindValue('date', date('Y-m-d H:i:s'));
