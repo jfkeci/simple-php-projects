@@ -1,5 +1,11 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION['user_id'])){
+    header('Location: login.php');
+}
+
 $connection = require_once './connection.php';
 
 $notes = $connection->getNotes();
@@ -22,6 +28,7 @@ if($currentNote['id']){
     $buttonText = 'Add new Note';
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +43,7 @@ if($currentNote['id']){
 <body>
     <div>
         <form class="new-note" action="save.php" method="post">
+        <a href="logout.php">Logout</a>
             <input type="hidden" name="id" value="<?php echo $currentNote['id'] ?>"">
             <input type="text" name="title" placeholder="Note title" autocomplete="off" value=<?php echo trim($currentNote['title']) ?>>
             <textarea name="description" cols="30" rows="4" placeholder="Note Description"><?php echo trim($currentNote['description']) ?></textarea>
@@ -57,7 +65,10 @@ if($currentNote['id']){
                     </form>
                 </div>
             <?php endforeach; ?>
+            
         </div>
+        
+
     </div>
 </body>
 </html>

@@ -49,6 +49,23 @@ class Connection{
         $statement->bindValue('description', $note['description']);
         return $statement->execute();
     }
+
+    public function registerUser($user){
+        $query = 'INSERT INTO users(username, password) VALUES (:username, :password);';
+        $statement = $this->pdo->prepare($query);
+        $statement->bindValue('username', $user['username']);
+        $statement->bindValue('password', $user['password']);
+        return $statement->execute();
+    }
+
+    public function loginUser($user){
+        $query = 'SELECT * FROM users WHERE username = :username AND password = :password;';
+        $statement = $this->pdo->prepare($query);
+        $statement->bindValue('username', $user['username']);
+        $statement->bindValue('password', $user['password']);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
 return $connection = new Connection();
